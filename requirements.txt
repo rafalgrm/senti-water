@@ -1,2 +1,4 @@
 sentinelsat
 pandas
+rasterio
+matplotlib
