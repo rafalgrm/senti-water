@@ -2,3 +2,4 @@ sentinelsat
 pandas
 rasterio
 matplotlib
+scikit-learn
