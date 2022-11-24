@@ -1,3 +1,2 @@
-*.zip
-S2*
 downloads
+.DS_Store
