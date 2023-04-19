@@ -1,13 +1,12 @@
 version: "3.8"
 services:
-    pythonapi:
-        build:
-            dockerfile: ./Dockerfile
-        container_name: pythonapi
-        restart: always
-        ports:
-            - ${PORT_MAP}:${PORT}
-        volumes:
-            - .:/pythonapi
-        env_file:
-            - .env
+  pythonapi:
+    container_name: pythonapi
+    build: .
+    restart: always
+    ports:
+      - ${PORT_MAP}:${PORT}
+    volumes:
+      - .:/pythonapi
+    env_file:
+      - .env

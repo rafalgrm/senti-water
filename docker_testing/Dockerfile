@@ -1,5 +1,11 @@
-FROM python:3.9.16
+FROM python:3.10.10
 
 WORKDIR /pythonapi
 
-RUN echo working
+COPY listener.py ./
+
+EXPOSE 6000
+
+RUN pip install Flask Flask-RESTful python-dotenv
+
+CMD [ "python", "./listener.py" ]
