@@ -10,10 +10,10 @@ from dotenv import load_dotenv
 load_dotenv()
 
 
-CLOUD_COVERAGE_RANGE = (0, 20)
-COORDINATES = [21.6704180012,53.989516804,21.7678837101,54.0310298075]
-TIME_PEROID_START = date(2022, 7, 1)
-TIME_PEROID_END = date(2022, 7, 31)
+# CLOUD_COVERAGE_RANGE = (0, 20)
+# COORDINATES = [21.6704180012,53.989516804,21.7678837101,54.0310298075]
+# TIME_PEROID_START = date(2022, 7, 1)
+# TIME_PEROID_END = date(2022, 7, 31)
 
 
 DOWNLOAD_ALL = False
@@ -21,7 +21,8 @@ SHOW_ALL = False
 
 SPECIFIC_IMAGE_INDEX = 0
 
-def download_images(COORDINATES, TIME_PEROID_START, TIME_PEROID_END, CLOUD_COVERAGE_RANGE, DOWNLOAD_ALL, SHOW_ALL, SPECIFIC_IMAGE_INDEX):
+def download_images(COORDINATES, TIME_PEROID_START, TIME_PEROID_END, CLOUD_COVERAGE_RANGE):
+    print("Starting image download")
     LOGIN = os.getenv('SENTINEL_LOGIN')
     PASS = os.getenv('SENTINEL_PASSWORD')
     api = SentinelAPI(LOGIN, PASS)
@@ -50,14 +51,14 @@ def download_images(COORDINATES, TIME_PEROID_START, TIME_PEROID_END, CLOUD_COVER
     if (DOWNLOAD_ALL):
         for product in products:
             try:
-                api.download(product, nodefilter = make_path_filter("*B02_60m.jp2", exclude = False), directory_path='downloads')
-                api.download(product, nodefilter = make_path_filter("*B03_60m.jp2", exclude = False), directory_path='downloads')
-                api.download(product, nodefilter = make_path_filter("*B04_60m.jp2", exclude = False), directory_path='downloads')
+                api.download(product, nodefilter = make_path_filter("*B02_60m.jp2", exclude = False), directory_path='./downloads')
+                api.download(product, nodefilter = make_path_filter("*B03_60m.jp2", exclude = False), directory_path='./downloads')
+                api.download(product, nodefilter = make_path_filter("*B04_60m.jp2", exclude = False), directory_path='./downloads')
             except Exception as e:
                 print(e)
                 continue
 
-
+    print("almost done")
 
     def get_path(path_idx, scale='10'):
         path = 'downloads/'
@@ -99,13 +100,14 @@ def download_images(COORDINATES, TIME_PEROID_START, TIME_PEROID_END, CLOUD_COVER
                 print(str(i) + ': good')
             except:
                 print(str(i) + ': error')
-
+    print("Done")
+    return "ok"
     if (SHOW_ALL):
         show_all_images()
 
     if (SPECIFIC_IMAGE_INDEX != -1):
         path_filter = make_path_filter('*B??_??m.jp2', exclude = False)
-        api.download(products_df.to_dict('split')['data'][SPECIFIC_IMAGE_INDEX][41], directory_path='downloads', nodefilter = path_filter)
+        api.download(products_df.to_dict('split')['data'][SPECIFIC_IMAGE_INDEX][41], directory_path='./downloads', nodefilter = path_filter)
 
         print(get_path(SPECIFIC_IMAGE_INDEX))
 
@@ -118,4 +120,3 @@ def download_images(COORDINATES, TIME_PEROID_START, TIME_PEROID_END, CLOUD_COVER
         display_rgb(img, 'B04', 'B03', 'B02', alpha = 5., figsize = (5, 5), title = str(SPECIFIC_IMAGE_INDEX))
 
 
-download_images(COORDINATES, TIME_PEROID_START, TIME_PEROID_END, CLOUD_COVERAGE_RANGE, DOWNLOAD_ALL, SHOW_ALL, SPECIFIC_IMAGE_INDEX)
