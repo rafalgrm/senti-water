@@ -8,3 +8,4 @@ fiona
 shapely
 ibmcloudant
 utm
+pyproj
