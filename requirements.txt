@@ -3,8 +3,8 @@ pandas
 rasterio
 matplotlib
 scikit-learn
-sklearn
 fiona
 shapely
 ibmcloudant
 utm
+pyproj
